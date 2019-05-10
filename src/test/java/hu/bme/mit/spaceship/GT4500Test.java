@@ -106,6 +106,38 @@ public class GT4500Test {
   }
 
   @Test
+  void fireTorpedo_SINGLE_bothGetsEmptyAfterPrimaryFire() {
+    when(mockPTS.isEmpty()).thenReturn(false);
+    when(mockPTS.fire(1)).thenReturn(true);
+    when(mockSTS.isEmpty()).thenReturn(false);
+    when(mockSTS.fire(1)).thenReturn(true);
+
+    assertTrue(ship.fireTorpedo(FiringMode.SINGLE));
+    verify(mockPTS, times(1)).fire(1);
+    verify(mockSTS, times(0)).fire(1);
+    //both gets empty
+    when(mockPTS.isEmpty()).thenReturn(true);
+    when(mockPTS.fire(1)).thenReturn(false);
+    when(mockSTS.isEmpty()).thenReturn(true);
+    when(mockSTS.fire(1)).thenReturn(false);
+
+    assertFalse(ship.fireTorpedo(FiringMode.SINGLE));
+    verify(mockPTS, times(1)).fire(1);
+    verify(mockSTS, times(0)).fire(1);
+  }
+
+  @Test
+  void fireTorpedo_SINGLE_bothEmpty() {
+    when(mockPTS.isEmpty()).thenReturn(true);
+    when(mockPTS.fire(1)).thenReturn(false);
+    when(mockSTS.isEmpty()).thenReturn(true);
+    when(mockSTS.fire(1)).thenReturn(false);
+    assertFalse(ship.fireTorpedo(FiringMode.SINGLE));
+    verify(mockPTS, times(0)).fire(1);
+    verify(mockSTS, times(0)).fire(1);
+  }
+
+  @Test
   void fireLaser_Single() {
     assertTrue(ship.fireLaser(FiringMode.SINGLE));
   }
