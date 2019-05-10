@@ -66,7 +66,7 @@ public class GT4500Test {
   }
 
   @Test
-  void fireTorpedo_ThreeTimes() {
+  void fireTorpedo_FourTimes() {
     when(mockPTS.fire(1)).thenReturn(true);
     when(mockPTS.isEmpty()).thenReturn(false);
     when(mockSTS.fire(1)).thenReturn(true);
